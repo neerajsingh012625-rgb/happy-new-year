@@ -1,1 +1,0 @@
-body{margin:0;background:black;color:white;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;}#countdown{font-size:140px;}#message{font-size:90px;text-align:center;}#message span{font-size:60px;}.hidden{display:none;}.gifts{display:flex;gap:40px;}.gift{font-size:80px;cursor:pointer;}#surprise img{width:200px;border-radius:20px;}
