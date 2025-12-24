@@ -1,11 +1,12 @@
-let c = 10;
-
 const cd = document.getElementById("countdown");
-const m = document.getElementById("message");
-const ss = document.getElementById("slideshow");
-const sp = document.getElementById("slide");
-const st = document.getElementById("stext");
+const msg = document.getElementById("message");
+const show = document.getElementById("slideshow");
+const slide = document.getElementById("slide");
+const text = document.getElementById("stext");
 const music = document.getElementById("music");
+
+let count = 10;
+let index = 0;
 
 const slides = [
   { photo: "photo1.jpg", text: "You are amazing 💖" },
@@ -13,122 +14,132 @@ const slides = [
   { photo: "photo3.jpg", text: "This year is ours ✨" }
 ];
 
-let idx = 0;
+const timer = setInterval(() => {
+  cd.textContent = count;
+  count--;
 
-setInterval(() => {
-  if (c > 0) {
-    c--;
-    cd.textContent = c;
-  }
-
-  if (c === 0) {
+  if (count < 0) {
+    clearInterval(timer);
     cd.style.display = "none";
-    m.classList.remove("hidden");
-    ss.classList.remove("hidden");
+    msg.classList.remove("hidden");
+    show.classList.remove("hidden");
     music.play();
 
-    startShow();
+    startSlideshow();
     startFireworks();
     startSnow();
     startRoses();
   }
 }, 1000);
 
-function startShow() {
+function startSlideshow() {
+  slide.src = slides[0].photo;
+  text.textContent = slides[0].text;
+
   setInterval(() => {
-    sp.src = slides[idx].photo;
-    st.innerHTML = slides[idx].text;
-    idx = (idx + 1) % slides.length;
+    index = (index + 1) % slides.length;
+    slide.src = slides[index].photo;
+    text.textContent = slides[index].text;
   }, 5000);
 }
 
-// 🎆 Fireworks
+// 🎆 FIREWORKS
 function startFireworks() {
-  const cv = document.getElementById("fireworks");
-  const ctx = cv.getContext("2d");
-  cv.width = innerWidth;
-  cv.height = innerHeight;
+  const c = document.getElementById("fireworks");
+  const ctx = c.getContext("2d");
+  resize(c);
 
-  let p = [];
+  let parts = [];
 
-  function add() {
+  function burst() {
     for (let i = 0; i < 120; i++) {
-      p.push({
-        x: Math.random() * cv.width,
-        y: Math.random() * cv.height / 2,
-        dx: (Math.random() - 0.5) * 6,
-        dy: (Math.random() - 0.5) * 6,
-        l: 100
+      parts.push({
+        x: Math.random() * c.width,
+        y: Math.random() * c.height / 2,
+        vx: (Math.random() - 0.5) * 6,
+        vy: (Math.random() - 0.5) * 6,
+        life: 100
       });
     }
   }
 
-  (function anim() {
-    ctx.clearRect(0, 0, cv.width, cv.height);
-    p.forEach((o, i) => {
+  function animate() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    parts.forEach((p, i) => {
       ctx.fillStyle = "gold";
-      ctx.fillRect(o.x, o.y, 3, 3);
-      o.x += o.dx;
-      o.y += o.dy;
-      o.l--;
-      if (o.l < 0) p.splice(i, 1);
+      ctx.fillRect(p.x, p.y, 3, 3);
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life--;
+      if (p.life <= 0) parts.splice(i, 1);
     });
-    if (p.length < 200) add();
-    requestAnimationFrame(anim);
-  })();
+
+    if (parts.length < 200) burst();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 }
 
-// ❄ Snow
+// ❄ SNOW
 function startSnow() {
-  const cv = document.getElementById("snow");
-  const ctx = cv.getContext("2d");
-  cv.width = innerWidth;
-  cv.height = innerHeight;
+  const c = document.getElementById("snow");
+  const ctx = c.getContext("2d");
+  resize(c);
 
-  let f = Array.from({ length: 200 }, () => ({
-    x: Math.random() * cv.width,
-    y: Math.random() * cv.height,
+  const flakes = Array.from({ length: 200 }, () => ({
+    x: Math.random() * c.width,
+    y: Math.random() * c.height,
     r: Math.random() * 3 + 1,
     s: Math.random() + 0.5
   }));
 
-  (function anim() {
-    ctx.clearRect(0, 0, cv.width, cv.height);
-    f.forEach(o => {
+  function animate() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    flakes.forEach(f => {
       ctx.beginPath();
-      ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
       ctx.fillStyle = "white";
       ctx.fill();
-      o.y += o.s;
-      if (o.y > cv.height) o.y = 0;
+      f.y += f.s;
+      if (f.y > c.height) f.y = 0;
     });
-    requestAnimationFrame(anim);
-  })();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 }
 
-// 🌹 Roses
+// 🌹 ROSES
 function startRoses() {
-  const cv = document.getElementById("roses");
-  const ctx = cv.getContext("2d");
-  cv.width = innerWidth;
-  cv.height = innerHeight;
+  const c = document.getElementById("roses");
+  const ctx = c.getContext("2d");
+  resize(c);
 
-  let r = Array.from({ length: 60 }, () => ({
-    x: Math.random() * cv.width,
-    y: Math.random() * cv.height,
+  const roses = Array.from({ length: 60 }, () => ({
+    x: Math.random() * c.width,
+    y: Math.random() * c.height,
     s: Math.random() + 0.5
   }));
 
-  (function anim() {
-    ctx.clearRect(0, 0, cv.width, cv.height);
-    r.forEach(o => {
-      ctx.fillStyle = "pink";
+  function animate() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    roses.forEach(r => {
       ctx.beginPath();
-      ctx.arc(o.x, o.y, 5, 0, Math.PI * 2);
+      ctx.arc(r.x, r.y, 5, 0, Math.PI * 2);
+      ctx.fillStyle = "hotpink";
       ctx.fill();
-      o.y += o.s;
-      if (o.y > cv.height) o.y = 0;
+      r.y += r.s;
+      if (r.y > c.height) r.y = 0;
     });
-    requestAnimationFrame(anim);
-  })();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 }
+
+function resize(canvas) {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
