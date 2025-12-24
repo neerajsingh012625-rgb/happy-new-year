@@ -1,18 +1,30 @@
-
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>Happy New Year Anushka</title>
-<link rel="stylesheet" href="style.css"></head>
+<head>
+  <meta charset="UTF-8">
+  <title>Happy New Year Anushka</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-<div id="container">
+
+<canvas id="fireworks"></canvas>
+<canvas id="snow"></canvas>
+<canvas id="roses"></canvas>
+
 <div id="countdown">10</div>
-<div id="message" class="hidden">Happy New Year<br><span>Anushka ✨</span></div>
-<div class="gifts hidden">
-<div class="gift" onclick="openGift(1)">🎁</div>
-<div class="gift" onclick="openGift(2)">🎁</div>
-<div class="gift" onclick="openGift(3)">🎁</div>
+
+<div id="center">
+  <div id="message" class="hidden">
+    Happy New Year<br><span>Anushka ✨</span>
+  </div>
+
+  <div id="slideshow" class="hidden">
+    <img id="slide">
+    <p id="stext"></p>
+  </div>
 </div>
-<div id="surprise" class="hidden"><img id="sphoto"><p id="stext"></p></div>
-</div>
+
 <audio id="music" src="music.mp3"></audio>
-<script src="script.js"></script></body></html>
+<script src="script.js"></script>
+</body>
+</html>
