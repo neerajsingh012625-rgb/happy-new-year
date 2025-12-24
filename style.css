@@ -12,6 +12,7 @@ body {
   width: 100%;
   text-align: center;
   font-size: 120px;
+  font-weight: bold;
 }
 
 #center {
@@ -36,7 +37,13 @@ body {
 #slideshow img {
   width: 260px;
   border-radius: 20px;
-  box-shadow: 0 0 20px pink;
+  box-shadow: 0 0 25px hotpink;
+}
+
+#stext {
+  margin-top: 10px;
+  font-size: 26px;
+  text-align: center;
 }
 
 .hidden {
@@ -50,4 +57,5 @@ body {
 canvas {
   position: absolute;
   inset: 0;
+  pointer-events: none;
 }
